@@ -8,7 +8,7 @@ def cleaner(text: str) -> list:
         streets_list -- list of street names where the road sign is located
         """
     streets_list = []
-    s = text.replace('Б.', 'Бол').replace('М.', 'Мал').replace('ё', 'е').split(', ')  ##bring "Большой" and "Малый" indices to a common format and split string
+    s = text.replace('Б.', 'Бол').replace('М.', 'Мал').replace('Ср.', 'Сред').replace('ё', 'е').split(', ')  ##bring "Большой", "Малый" and "Средний" indices to a common format and split string
     for i in range(len(s)):
         if (s[i].islower() == False):  ##automatically remove all elements that do not contain capital letters
             if ' ' in s[i]:
@@ -49,6 +49,9 @@ def len_format(text: str) -> str:
         if 'мал' in element.lower():
             index = 'Мал '
             element = element.lower()
+        if 'сред' in element.lower():  ##change indices 'Большой' for 'Бол' and 'Малый' for 'Мал'
+            index = 'Сред '
+            element = element.lower()
         if (element.islower() == False) or (element.isalpha() == False):  ##delete words 'улица', 'переулок' etc., and leave only the proper name (with capital letters) in the line
             street += element + ' '  ##write the components of the street name in a line
     street += index  ##don't forget about the index
@@ -56,7 +59,7 @@ def len_format(text: str) -> str:
 
 signs_dict = {}
 dict_streets = {}
-print('Примечание: название не должно содержать слов "улица, переулок", индексы ("1-й", "2-ая") и приставки ("Академика", "Генерала") вводятся после названия улицы (пр. "Понтрягина Академика"), индексы Большой(-ая) и Малый(-ая) вводятся в формате "Бол" и "Мал", для приставок недоступен расчет плотности знака.')
+print('Примечание: название не должно содержать слов "улица, переулок", индексы ("1-й", "2-ая") и приставки ("Академика", "Генерала") вводятся после названия улицы (пр. "Понтрягина Академика"), индексы Большой(-ая), Средний(-яя) и Малый(-ая) вводятся в формате "Бол", "Сред" и "Мал", для приставок недоступен расчет плотности знака.')
 print('Введите название улицы, проезда, переулка на русском:')
 street_name = input()
 with open('data/data-62681-2024-09-20.csv', 'r', newline='') as csvfile:  ##unpack the dataset
